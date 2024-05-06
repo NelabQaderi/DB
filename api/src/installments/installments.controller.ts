@@ -53,4 +53,11 @@ export class InstallmentsController {
   getIntallmentForPrint(@Param('id') id: string) {
     return this.installmentsService.getIntallmentForPrint(id);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @Get('student/:id')
+  getAllInstallmentsOfStudent(@Param('id') id: string) {
+    return this.installmentsService.getAllInstallmentsOfStudent(id);
+  }
 }

@@ -10,10 +10,11 @@ import { JwtAuthModule } from 'src/jwt/jwt.module';
 import { JwtStrategy } from 'src/jwt/jwt.strategy';
 import { Classes } from 'src/classes/entities/class.entity';
 import { Students } from 'src/students/entities/student.entity';
+import { Instructors } from 'src/instructors/entities/instructor.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Installments, Classes, Students]), 
+    TypeOrmModule.forFeature([Installments, Classes, Students, Instructors]), 
     JwtAuthModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({

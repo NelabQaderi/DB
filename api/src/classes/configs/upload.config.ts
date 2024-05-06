@@ -4,7 +4,7 @@ import { extname, join } from 'path';
 
 export const multerOptions = {
   storage: diskStorage({
-    destination: join(__dirname, '../../../', 'students_image'),
+    destination: join(__dirname, '../../../../ui/public/', 'students_image'),
     filename: (req, file, callback) => {
       const randomName = Array(32)
         .fill(null)

@@ -124,7 +124,7 @@ const Classes = () => {
       <Table.Td>{element.class_name}</Table.Td>
       <Table.Td>{element.instructor_name}</Table.Td>
       <Table.Td>{element.class_duration}</Table.Td>
-      <Table.Td>{element.start_date}</Table.Td>
+      <Table.Td>{new Date(element.start_date).toDateString()}</Table.Td>
       <Table.Td>{element.start_time}</Table.Td>
       <Table.Td>{element.class_fee}</Table.Td>
       <Table.Td>{element.class_fee_currency}</Table.Td>

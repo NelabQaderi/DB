@@ -3,10 +3,11 @@ import { CreateInstallmentDto } from './dto/create-installment.dto';
 import { UpdateInstallmentDto } from './dto/update-installment.dto';
 import { Installments } from './entities/installment.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { StudentAndClassDto } from './dto/student-and-class.dto';
 import { Students } from 'src/students/entities/student.entity';
 import { Classes } from 'src/classes/entities/class.entity';
+import { Instructors } from 'src/instructors/entities/instructor.entity';
 
 @Injectable()
 export class InstallmentsService {
@@ -18,6 +19,8 @@ export class InstallmentsService {
     private readonly studentsRepository: Repository<Students>,
     @InjectRepository(Classes)
     private readonly classesRepository: Repository<Classes>,
+    @InjectRepository(Instructors)
+    private readonly instructorsRepository: Repository<Instructors>,
   ) {}
 
   async addInstallment(studentAndClassDto: StudentAndClassDto) {
@@ -161,6 +164,69 @@ export class InstallmentsService {
       class_data,
       installment
     }
+
+  }
+
+  async getAllInstallmentsOfStudent(id: string) {
+
+    const student_data = await this.studentsRepository.findOneBy({
+      id: id,
+    });
+
+    if (!student_data) {
+      throw new NotFoundException('No such student!!!')
+    }
+
+    const installments = await this.installmentsRepository.findBy({
+        student_id: student_data.id,
+    })
+
+    const classes_id = installments.map((item: any) => (item.class_id))
+
+    const classes_data = await this.classesRepository.findBy({
+      id: In(classes_id),
+    });
+
+    const instructors_id = classes_data.map((item: any) => (item.instructor_id))
+
+    const instructors_data = await this.instructorsRepository.findBy({
+      id: In(instructors_id)
+    })
+
+    const r = installments.map((item: any) => {
+      const class_data:any = classes_data.map((class_item: any) => (
+          item.class_id === class_item.id ? {
+            class_name: class_item.class_name, 
+            instructor_id: class_item.instructor_id,
+            start_date: class_item.start_date,
+            start_time: class_item.start_time,
+            class_fee: class_item.class_fee,
+            class_fee_currency: class_item.class_fee_currency,
+          } : null
+      )).find(item => {
+          return item !== null
+      })
+      return {
+        installment_id: item.id,
+        installment_date: item.installment_date,
+        installment_type: item.installment_type,
+        installment_received: item.installment_received,
+        installment_amount: item.installment_amount,
+        instructor_id: item.instructor_id,
+        class_name: class_data?.class_name,
+        start_date: class_data?.start_date,
+        start_time: class_data?.start_time,
+        class_fee: class_data?.class_fee,
+        class_fee_currency: class_data?.class_fee_currency,
+        instructor_name: instructors_data.map((instructor_item: any) => (
+          class_data.instructor_id === instructor_item.id ? instructor_item.name : null
+      )).find(item => {
+          return item !== null
+      })
+      }
+    })
+
+    return r
 
   }
 
