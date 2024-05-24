@@ -306,7 +306,7 @@ const GetStudent = ({params}: {params: {id: string}}) => {
             </Grid.Col>
             <Grid.Col span={12}>
                 <Input.Wrapper label="Installment Date">
-                <Input onChange={(e:any) => setEditInstallments({...editInstallments, installment_date: e.target.value})} placeholder={new Date(editInstallments.installment_date).toLocaleDateString()} />
+                <Input type="date" onChange={(e:any) => setEditInstallments({...editInstallments, installment_date: e.target.value})} placeholder={new Date(editInstallments.installment_date).toLocaleDateString()} />
                 </Input.Wrapper>
             </Grid.Col>
             <Grid.Col span={12}>
@@ -314,6 +314,7 @@ const GetStudent = ({params}: {params: {id: string}}) => {
             </Grid.Col>
             </Grid>
         </Modal>
+
         <Modal opened={opened2} onClose={open2.close} title="Register Student to a Class" centered>
             {slide === 1 && (
                 <Grid>
@@ -381,18 +382,19 @@ const GetStudent = ({params}: {params: {id: string}}) => {
                 </Grid.Col>
             </Grid>
         </Modal>
+
         <Title style={{borderBottom: "2px solid white"}} mb="10px">
             Student Information
         </Title>
-        <Card shadow="sm" padding="lg" radius="md" withBorder>
-            <Card.Section>
+
+        <Grid>
+            <Grid.Col span={{base: 12, lg: 4, sm: 12}}>
                 <ImageDisplay
                     url={studentData.student_photo}
                     name={studentData.student_name}
                 />
-            </Card.Section>
-
-            <Card.Section>
+            </Grid.Col>
+            <Grid.Col span={{base: 12, lg: 8, sm: 12}}>
                 <Table striped highlightOnHover withTableBorder withColumnBorders>
                     <Table.Thead>
                         <Table.Tr>
@@ -423,26 +425,25 @@ const GetStudent = ({params}: {params: {id: string}}) => {
                         </Table.Tr>
                     </Table.Tbody>
                 </Table>
-            </Card.Section>
-
-            <Grid>
-                <Grid.Col span={6}>
-                    <Button onClick={() => open()} color="green" fullWidth mt="md" radius="md">
-                        Edit
-                    </Button>
-                </Grid.Col>
-                <Grid.Col span={6}>
-                    <Button onClick={() => deleteStudent()} color="red" fullWidth mt="md" radius="md">
-                        Delete
-                    </Button>
-                </Grid.Col>
-                <Grid.Col span={12}>
-                    <Button onClick={() => open2.open()} color="blue" fullWidth mt="md" radius="md">
-                        Add Installments to a Class
-                    </Button>
-                </Grid.Col>
-            </Grid>
-        </Card>
+                <Grid>
+                    <Grid.Col span={6}>
+                        <Button onClick={() => open()} color="green" fullWidth mt="md" radius="md">
+                            Edit
+                        </Button>
+                    </Grid.Col>
+                    <Grid.Col span={6}>
+                        <Button onClick={() => deleteStudent()} color="red" fullWidth mt="md" radius="md">
+                            Delete
+                        </Button>
+                    </Grid.Col>
+                    <Grid.Col span={12}>
+                        <Button onClick={() => open2.open()} color="blue" fullWidth mt="md" radius="md">
+                            Add Installments to a Class
+                        </Button>
+                    </Grid.Col>
+                </Grid>
+            </Grid.Col>
+        </Grid>           
         <br />
         <Title style={{borderBottom: "2px solid white"}} mb="10px">
             Student Classes Installments

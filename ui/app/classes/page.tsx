@@ -212,12 +212,12 @@ const Classes = () => {
           </Grid.Col>
           <Grid.Col span={12}>
             <Input.Wrapper label="Class Start Date">
-              <Input onChange={(e:any) => setClassData({...classData, start_date: e.target.value})} placeholder={classData?.start_date} />
+              <Input type="date" onChange={(e:any) => setClassData({...classData, start_date: e.target.value})} placeholder={classData?.start_date} />
             </Input.Wrapper>
           </Grid.Col>
           <Grid.Col span={12}>
             <Input.Wrapper label="Class Start Time">
-              <Input onChange={(e:any) => setClassData({...classData, start_time: e.target.value})} placeholder={classData?.start_time} />
+              <Input type="time" onChange={(e:any) => setClassData({...classData, start_time: e.target.value})} placeholder={classData?.start_time} />
             </Input.Wrapper>
           </Grid.Col>
           <Grid.Col span={12}>
